@@ -1,6 +1,6 @@
-/* ============================================
+/* =====================================================
    ELEMENTS
-============================================ */
+===================================================== */
 
 const screens = {
     first: document.getElementById("screen1"),
@@ -8,46 +8,53 @@ const screens = {
     third: document.getElementById("screen3")
 };
 
-const choices = document.querySelectorAll(".choice");
+
+const choices =
+    document.querySelectorAll(".choice");
+
 
 const continueButton =
     document.getElementById("continueButton");
 
+
 const musicButton =
     document.getElementById("musicButton");
+
 
 const music =
     document.getElementById("music");
 
+
 const musicText =
     document.getElementById("musicText");
+
 
 const typedText =
     document.getElementById("typedText");
 
+
 const finalMessage =
     document.getElementById("finalMessage");
+
 
 const floatingHearts =
     document.getElementById("floatingHearts");
 
 
-/* ============================================
+/* =====================================================
    STATE
-============================================ */
+===================================================== */
 
 let selectedChoice = null;
-
-let currentScreen = "first";
 
 let musicStarted = false;
 
 let typingStarted = false;
 
 
-/* ============================================
-   TEXT
-============================================ */
+/* =====================================================
+   LETTER TEXT
+===================================================== */
 
 const cityText = `
 Мне нравится, как рядом с тобой самые обычные вещи
@@ -64,6 +71,7 @@ const cityText = `
 А то, что ты рядом.
 `;
 
+
 const cinemaText = `
 Мне нравится мысль о том,
 что иногда нам вообще не нужно ничего придумывать.
@@ -78,11 +86,13 @@ const cinemaText = `
 я всё равно буду смотреть не на экран.
 `;
 
+
 const cityFinal = `
 если честно,<br>
 я бы выбрал любой маршрут,<br>
 лишь бы в конце идти рядом с тобой.
 `;
+
 
 const cinemaFinal = `
 если честно,<br>
@@ -91,13 +101,17 @@ const cinemaFinal = `
 `;
 
 
-/* ============================================
-   SCREEN SWITCH
-============================================ */
+/* =====================================================
+   SCREEN TRANSITION
+===================================================== */
 
 function switchScreen(from, to) {
 
+    if (!from || !to) return;
+
+
     from.classList.add("leaving");
+
 
     setTimeout(() => {
 
@@ -106,235 +120,309 @@ function switchScreen(from, to) {
 
         to.classList.add("active");
 
-        currentScreen =
-            Object.keys(screens).find(
-                key => screens[key] === to
-            );
-
     }, 550);
 }
 
 
-/* ============================================
-   START MUSIC
-============================================ */
+/* =====================================================
+   MUSIC
+===================================================== */
 
 function startMusic() {
 
     if (musicStarted) return;
 
-    musicStarted = true;
 
-    music.volume = 0;
+    /*
+        Важно:
 
-    const playPromise = music.play();
+        play() вызывается непосредственно
+        после пользовательского клика.
 
-    if (playPromise !== undefined) {
+        Это нужно для iPhone / Safari.
+    */
 
-        playPromise
+    music.volume = 0.4;
+
+
+    const promise =
+        music.play();
+
+
+    if (promise !== undefined) {
+
+        promise
             .then(() => {
 
-                fadeMusicIn();
+                musicStarted = true;
 
-                musicText.textContent = "играет";
+                musicText.textContent =
+                    "играет ♫";
 
             })
-            .catch(() => {
+            .catch((error) => {
+
+                console.error(
+                    "Музыка не запустилась:",
+                    error
+                );
 
                 musicStarted = false;
 
                 musicText.textContent =
-                    "включить музыку";
+                    "нажми ♫";
+
             });
     }
 }
 
 
-function fadeMusicIn() {
+/* =====================================================
+   MUSIC BUTTON
+===================================================== */
 
-    let volume = 0;
+musicButton.addEventListener(
+    "click",
+    () => {
 
-    const fade = setInterval(() => {
+        if (music.paused) {
 
-        volume += 0.025;
+            music.volume = 0.4;
 
-        music.volume =
-            Math.min(volume, 0.42);
+            music.play()
+                .then(() => {
 
-        if (volume >= 0.42) {
+                    musicStarted = true;
 
-            clearInterval(fade);
+                    musicText.textContent =
+                        "играет ♫";
+
+                })
+                .catch(error => {
+
+                    console.error(
+                        "Ошибка музыки:",
+                        error
+                    );
+
+                });
+
+        } else {
+
+            music.pause();
+
+            musicText.textContent =
+                "музыка";
         }
 
-    }, 70);
-}
-
-
-/* ============================================
-   MUSIC BUTTON
-============================================ */
-
-musicButton.addEventListener("click", () => {
-
-    if (music.paused) {
-
-        music.play();
-
-        music.volume = 0.42;
-
-        musicText.textContent =
-            "играет";
-
-    } else {
-
-        music.pause();
-
-        musicText.textContent =
-            "музыка";
     }
+);
 
-});
+
+/* =====================================================
+   MUSIC ERROR
+===================================================== */
+
+music.addEventListener(
+    "error",
+    () => {
+
+        console.error(
+            "Аудиофайл не найден или не может быть загружен."
+        );
+
+        musicText.textContent =
+            "нет музыки";
+    }
+);
 
 
-/* ============================================
+music.addEventListener(
+    "canplay",
+    () => {
+
+        console.log(
+            "Музыка готова к воспроизведению."
+        );
+
+    }
+);
+
+
+/* =====================================================
    CHOICE
-============================================ */
+===================================================== */
 
 choices.forEach(choice => {
 
-    choice.addEventListener("click", () => {
+    choice.addEventListener(
+        "click",
+        () => {
 
-        selectedChoice =
-            choice.dataset.choice;
-
-
-        /* запускаем музыку */
-
-        startMusic();
+            selectedChoice =
+                choice.dataset.choice;
 
 
-        /* визуально нажимаем карточку */
+            /*
+                Музыка запускается
+                непосредственно внутри клика.
+            */
 
-        choice.style.transform =
-            "scale(0.97)";
-
-
-        setTimeout(() => {
-
-            choice.style.transform = "";
-
-        }, 180);
+            startMusic();
 
 
-        /* меняем письмо */
+            /*
+                Выбираем текст письма.
+            */
 
-        if (selectedChoice === "city") {
+            if (
+                selectedChoice === "city"
+            ) {
 
-            typedText.dataset.text =
-                cityText;
+                typedText.dataset.text =
+                    cityText;
 
-        } else {
+                finalMessage.innerHTML =
+                    cityFinal;
 
-            typedText.dataset.text =
-                cinemaText;
+            } else {
+
+                typedText.dataset.text =
+                    cinemaText;
+
+                finalMessage.innerHTML =
+                    cinemaFinal;
+            }
+
+
+            /*
+                Небольшая реакция карточки.
+            */
+
+            choice.style.transform =
+                "scale(0.97)";
+
+
+            setTimeout(() => {
+
+                choice.style.transform = "";
+
+            }, 160);
+
+
+            /*
+                Переходим дальше.
+            */
+
+            setTimeout(() => {
+
+                switchScreen(
+                    screens.first,
+                    screens.second
+                );
+
+
+                /*
+                    Начинаем печатать письмо
+                    после появления второго экрана.
+                */
+
+                setTimeout(
+                    startTyping,
+                    350
+                );
+
+            }, 300);
 
         }
-
-
-        /* меняем финальный текст */
-
-        if (selectedChoice === "city") {
-
-            finalMessage.innerHTML =
-                cityFinal;
-
-        } else {
-
-            finalMessage.innerHTML =
-                cinemaFinal;
-
-        }
-
-
-        /* переходим на экран письма */
-
-        setTimeout(() => {
-
-            switchScreen(
-                screens.first,
-                screens.second
-            );
-
-            startTyping();
-
-        }, 350);
-
-    });
+    );
 
 });
 
 
-/* ============================================
+/* =====================================================
    TYPEWRITER
-============================================ */
+===================================================== */
 
 function startTyping() {
+
+    const text =
+        typedText.dataset.text;
+
+
+    if (!text) return;
+
 
     if (typingStarted) {
 
         typedText.innerHTML =
-            formatText(
-                typedText.dataset.text
-            );
+            formatText(text);
 
         return;
     }
 
+
     typingStarted = true;
 
-    const text =
-        typedText.dataset.text.trim();
-
     typedText.textContent = "";
+
+
+    const cleanText =
+        text.trim();
+
 
     let index = 0;
 
 
-    function type() {
+    function typeNext() {
 
-        if (index >= text.length) {
+        if (
+            index >=
+            cleanText.length
+        ) {
 
             return;
         }
 
 
         typedText.textContent +=
-            text[index];
+            cleanText[index];
+
+
+        const character =
+            cleanText[index];
 
 
         index++;
 
 
-        let delay = 25;
+        let delay = 23;
 
 
         if (
-            text[index - 1] === "." ||
-            text[index - 1] === "," ||
-            text[index - 1] === "—"
+            character === "." ||
+            character === "," ||
+            character === "—"
         ) {
 
-            delay = 180;
+            delay = 170;
         }
 
 
-        setTimeout(type, delay);
+        setTimeout(
+            typeNext,
+            delay
+        );
     }
 
 
-    type();
+    typeNext();
 }
 
+
+/* =====================================================
+   FORMAT TEXT
+===================================================== */
 
 function formatText(text) {
 
@@ -344,40 +432,46 @@ function formatText(text) {
 }
 
 
-/* ============================================
+/* =====================================================
    CONTINUE
-============================================ */
+===================================================== */
 
-continueButton.addEventListener("click", () => {
+continueButton.addEventListener(
+    "click",
+    () => {
 
-    switchScreen(
-        screens.second,
-        screens.third
-    );
+        switchScreen(
+            screens.second,
+            screens.third
+        );
 
-});
+    }
+);
 
 
-/* ============================================
+/* =====================================================
    FLOATING HEARTS
-============================================ */
+===================================================== */
 
 const heartSymbols = [
     "♡",
     "♡",
     "♥",
-    "˚♡",
-    "♡"
+    "˚♡"
 ];
 
 
 function createHeart() {
 
+    if (!floatingHearts) return;
+
+
     const heart =
         document.createElement("span");
 
 
-    heart.className = "heart";
+    heart.className =
+        "heart";
 
 
     heart.textContent =
@@ -390,7 +484,8 @@ function createHeart() {
 
 
     const size =
-        11 + Math.random() * 17;
+        10 +
+        Math.random() * 16;
 
 
     const left =
@@ -398,11 +493,13 @@ function createHeart() {
 
 
     const duration =
-        7 + Math.random() * 9;
+        7 +
+        Math.random() * 8;
 
 
     const drift =
-        -80 + Math.random() * 160;
+        -80 +
+        Math.random() * 160;
 
 
     heart.style.left =
@@ -423,108 +520,147 @@ function createHeart() {
     );
 
 
-    floatingHearts.appendChild(heart);
+    floatingHearts.appendChild(
+        heart
+    );
 
-
-    setTimeout(() => {
-
-        heart.remove();
-
-    }, duration * 1000);
-}
-
-
-/* создаём сердечки постоянно */
-
-setInterval(
-    createHeart,
-    850
-);
-
-
-/* несколько сразу при загрузке */
-
-for (let i = 0; i < 7; i++) {
 
     setTimeout(
-        createHeart,
-        i * 400
+        () => {
+
+            heart.remove();
+
+        },
+        duration * 1000
     );
 }
 
 
-/* ============================================
-   PARALLAX PHOTO EFFECT
-============================================ */
+/*
+    Первые сердечки.
+*/
+
+for (
+    let i = 0;
+    i < 6;
+    i++
+) {
+
+    setTimeout(
+        createHeart,
+        i * 350
+    );
+}
+
+
+/*
+    Новые сердечки.
+*/
+
+setInterval(
+    createHeart,
+    900
+);
+
+
+/* =====================================================
+   PHOTO PARALLAX — DESKTOP
+===================================================== */
 
 const photoHeart =
-    document.querySelector(".photo-heart");
+    document.querySelector(
+        ".photo-heart"
+    );
 
 
-if (photoHeart) {
+if (
+    photoHeart &&
+    window.matchMedia(
+        "(hover: hover)"
+    ).matches
+) {
 
     document.addEventListener(
         "mousemove",
         event => {
 
             const x =
-                (event.clientX /
+                (
+                    event.clientX /
                     window.innerWidth -
-                    0.5) * 2;
+                    0.5
+                ) * 2;
 
 
             const y =
-                (event.clientY /
+                (
+                    event.clientY /
                     window.innerHeight -
-                    0.5) * 2;
+                    0.5
+                ) * 2;
 
 
             photoHeart.style.transform =
                 `
                 rotate(-1deg)
-                translate(
+                translate3d(
                     ${x * 4}px,
-                    ${y * 4}px
+                    ${y * 4}px,
+                    0
                 )
                 `;
+
         }
     );
 }
 
 
-/* ============================================
+/* =====================================================
    TOUCH PARALLAX
-============================================ */
+===================================================== */
 
-document.addEventListener(
-    "touchmove",
-    event => {
+if (photoHeart) {
 
-        if (!photoHeart) return;
+    document.addEventListener(
+        "touchmove",
+        event => {
 
-        const touch =
-            event.touches[0];
-
-        const x =
-            (touch.clientX /
-                window.innerWidth -
-                0.5) * 2;
+            const touch =
+                event.touches[0];
 
 
-        const y =
-            (touch.clientY /
-                window.innerHeight -
-                0.5) * 2;
+            if (!touch) return;
 
 
-        photoHeart.style.transform =
-            `
-            rotate(-1deg)
-            translate(
-                ${x * 3}px,
-                ${y * 3}px
-            )
-            `;
-    },
-    { passive: true }
-);
+            const x =
+                (
+                    touch.clientX /
+                    window.innerWidth -
+                    0.5
+                ) * 2;
+
+
+            const y =
+                (
+                    touch.clientY /
+                    window.innerHeight -
+                    0.5
+                ) * 2;
+
+
+            photoHeart.style.transform =
+                `
+                rotate(-1deg)
+                translate3d(
+                    ${x * 2}px,
+                    ${y * 2}px,
+                    0
+                )
+                `;
+
+        },
+        {
+            passive: true
+        }
+    );
+}

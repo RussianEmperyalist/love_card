@@ -8,285 +8,258 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     >
 
-    <title>для тебя ♡</title>
+    <meta name="theme-color" content="#f6dfd3">
 
+    <title>Для тебя ❤️</title>
+
+    <!-- Шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Основной + рукописный шрифт -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&family=Parisienne&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Parisienne&display=swap"
         rel="stylesheet"
     >
 
+    <!-- Основные стили -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- =========================================
-         ФОНОВЫЕ ЭФФЕКТЫ
-    ========================================== -->
-
-    <div class="noise"></div>
-
-    <div class="floating-hearts" id="floatingHearts"></div>
-
-    <!-- =========================================
-         ОСНОВНОЙ APP
-    ========================================== -->
-
     <main class="app">
 
-        <!-- =====================================
-             SCREEN 1
-        ====================================== -->
+        <!-- =========================================
+             ЭКРАН 1
+        ========================================== -->
 
-        <section class="screen screen-one active" id="screen1">
+        <section class="screen screen-1 active" id="screen1">
 
-            <div class="top-line">
-                <span>маленький вопрос</span>
+            <div class="floating-hearts" aria-hidden="true"></div>
 
-                <span class="counter">01 / 03</span>
-            </div>
+            <div class="intro-content">
 
-
-            <div class="question-wrapper">
-
-                <div class="tiny-heart">♡</div>
-
-                <p class="eyebrow">
-                    если бы сегодняшний вечер был только нашим...
-                </p>
-
-                <h1>
-                    как ты хочешь<br>
-                    провести нашу<br>
-                    <em>прогулку?</em>
-                </h1>
-
-                <p class="question-subtitle">
-                    выбери то, что сейчас хочется больше всего
-                </p>
-
-            </div>
-
-
-            <div class="choices">
-
-                <button
-                    class="choice"
-                    data-choice="city"
-                >
-
-                    <span class="choice-number">01</span>
-
-                    <span class="choice-title">
-                        прогулка<br>
-                        по городу
-                    </span>
-
-                    <span class="choice-description">
-                        медленно идти рядом<br>
-                        и никуда не спешить
-                    </span>
-
-                    <span class="choice-arrow">
-                        ↗
-                    </span>
-
-                </button>
-
-
-                <button
-                    class="choice"
-                    data-choice="cinema"
-                >
-
-                    <span class="choice-number">02</span>
-
-                    <span class="choice-title">
-                        вечер<br>
-                        в кино
-                    </span>
-
-                    <span class="choice-description">
-                        один фильм,<br>
-                        два билета и мы
-                    </span>
-
-                    <span class="choice-arrow">
-                        ↗
-                    </span>
-
-                </button>
-
-            </div>
-
-
-            <div class="bottom-note">
-                <span class="line"></span>
-                <span>для самого красивого человека</span>
-                <span class="line"></span>
-            </div>
-
-        </section>
-
-
-        <!-- =====================================
-             SCREEN 2
-        ====================================== -->
-
-        <section class="screen screen-two" id="screen2">
-
-            <div class="top-line">
-                <span>маленькое письмо</span>
-
-                <span class="counter">02 / 03</span>
-            </div>
-
-
-            <div class="letter">
-
-                <div class="letter-date">
-                    сегодня · только для тебя
-                </div>
-
-
-                <div class="letter-decoration">
-                    <span></span>
-                    ♡
-                    <span></span>
-                </div>
-
-
-                <h2>
-                    знаешь,<br>
-                    что мне в тебе<br>
-                    <em>особенно нравится?</em>
-                </h2>
-
-
-                <div class="typed-text" id="typedText"></div>
-
-
-                <div class="letter-signature">
-                    <span>твой человек</span>
-
-                    <strong>♥</strong>
-                </div>
-
-            </div>
-
-
-            <button class="continue-button" id="continueButton">
-
-                <span>
-                    посмотреть дальше
+                <span class="small-label">
+                    маленький вопрос
                 </span>
 
-                <b>↓</b>
+                <h1>
+                    Как ты хочешь<br>
+                    провести нашу<br>
+                    прогулку?
+                </h1>
 
-            </button>
+                <p class="intro-description">
+                    Выбирай, а остальное я беру на себя
+                </p>
+
+                <div class="choices">
+
+                    <button
+                        class="choice choice-city"
+                        type="button"
+                        data-choice="city"
+                    >
+                        <span class="choice-icon">♡</span>
+
+                        <span class="choice-text">
+                            <strong>Прогулка<br>по городу</strong>
+                            <small>
+                                гулять, разговаривать<br>
+                                и никуда не спешить
+                            </small>
+                        </span>
+
+                        <span class="choice-arrow">→</span>
+                    </button>
+
+
+                    <button
+                        class="choice choice-cinema"
+                        type="button"
+                        data-choice="cinema"
+                    >
+                        <span class="choice-icon">◌</span>
+
+                        <span class="choice-text">
+                            <strong>Вечер<br>в кино</strong>
+                            <small>
+                                фильм, уют<br>
+                                и время только для нас
+                            </small>
+                        </span>
+
+                        <span class="choice-arrow">→</span>
+                    </button>
+
+                </div>
+
+            </div>
 
         </section>
 
 
-        <!-- =====================================
-             SCREEN 3
-        ====================================== -->
+        <!-- =========================================
+             ЭКРАН 2 — ПИСЬМО
+        ========================================== -->
 
-        <section class="screen screen-three" id="screen3">
+        <section class="screen screen-2" id="screen2">
 
-            <div class="top-line final-top">
-                <span>наша маленькая история</span>
+            <div class="letter-wrapper">
 
-                <span class="counter">03 / 03</span>
+                <div class="letter-decoration">
+                    ✦
+                </div>
+
+                <p class="letter-label">
+                    для тебя
+                </p>
+
+                <div class="letter">
+
+                    <p class="letter-greeting">
+                        Моя хорошая,
+                    </p>
+
+                    <div
+                        class="letter-text"
+                        id="letterText"
+                    ></div>
+
+                    <p class="letter-signature">
+                        Твой ❤️
+                    </p>
+
+                </div>
+
+                <button
+                    class="continue-button"
+                    id="continueButton"
+                    type="button"
+                >
+                    <span>Дальше</span>
+                    <span>→</span>
+                </button>
+
             </div>
 
+        </section>
+
+
+        <!-- =========================================
+             ЭКРАН 3 — ФОТО-СЕРДЦЕ
+        ========================================== -->
+
+        <section class="screen screen-3" id="screen3">
 
             <div class="final-content">
 
-                <p class="final-overline">
-                    из всех фотографий я выбрал не самые идеальные
+                <p class="final-label">
+                    и самое главное...
                 </p>
 
-                <h2>
-                    я выбрал<br>
-                    <em>наши.</em>
-                </h2>
 
+                <!-- ФОТО-СЕРДЦЕ -->
 
-                <!-- =================================
-                     СЕРДЦЕ ИЗ ФОТОГРАФИЙ
-                ================================== -->
+                <div class="photo-heart" id="photoHeart">
 
-                <div class="photo-heart">
-
-                    <div class="photo photo-1">
-                        <img src="img/1.jpg" alt="">
+                    <div class="heart-photo photo-1">
+                        <img
+                            src="./img/1.jpg"
+                            alt="Наше фото 1"
+                        >
                     </div>
 
-                    <div class="photo photo-2">
-                        <img src="img/2.jpg" alt="">
+                    <div class="heart-photo photo-2">
+                        <img
+                            src="./img/2.jpg"
+                            alt="Наше фото 2"
+                        >
                     </div>
 
-                    <div class="photo photo-3">
-                        <img src="img/3.jpg" alt="">
+                    <div class="heart-photo photo-3">
+                        <img
+                            src="./img/3.jpg"
+                            alt="Наше фото 3"
+                        >
                     </div>
 
-                    <div class="photo photo-4">
-                        <img src="img/4.jpg" alt="">
+                    <div class="heart-photo photo-4">
+                        <img
+                            src="./img/4.jpg"
+                            alt="Наше фото 4"
+                        >
                     </div>
 
-                    <div class="photo photo-5">
-                        <img src="img/5.jpg" alt="">
+                    <div class="heart-photo photo-5">
+                        <img
+                            src="./img/5.jpg"
+                            alt="Наше фото 5"
+                        >
                     </div>
 
-                    <div class="photo photo-6">
-                        <img src="img/6.jpg" alt="">
+                    <div class="heart-photo photo-6">
+                        <img
+                            src="./img/6.jpg"
+                            alt="Наше фото 6"
+                        >
                     </div>
 
-                    <div class="photo photo-7">
-                        <img src="img/7.jpg" alt="">
+                    <div class="heart-photo photo-7">
+                        <img
+                            src="./img/7.jpg"
+                            alt="Наше фото 7"
+                        >
                     </div>
 
-                    <div class="photo photo-8">
-                        <img src="img/8.jpg" alt="">
+                    <div class="heart-photo photo-8">
+                        <img
+                            src="./img/8.jpg"
+                            alt="Наше фото 8"
+                        >
+                    </div>
+
+
+                    <!-- Слово LOVE поверх фотографий -->
+
+                    <div class="love-word">
+                        love
                     </div>
 
                 </div>
 
 
-                <div class="love-word">
-                    love
+                <!-- Финальный текст -->
+
+                <div class="final-message">
+
+                    <h2>
+                        Где бы мы ни были —
+                        <span>мне хорошо с тобой.</span>
+                    </h2>
+
+                    <p id="finalChoiceText">
+                        Главное, что мы будем вместе.
+                    </p>
+
                 </div>
 
 
-                <p class="final-message" id="finalMessage">
-                    если честно,<br>
-                    я бы выбрал любой вариант,<br>
-                    лишь бы рядом была ты.
-                </p>
+                <!-- Кнопка музыки -->
 
-            </div>
+                <button
+                    class="music-button"
+                    id="musicButton"
+                    type="button"
+                    aria-label="Управление музыкой"
+                >
+                    <span class="music-icon">♫</span>
 
+                    <span id="musicText">
+                        музыка
+                    </span>
+                </button>
 
-            <button class="music-button" id="musicButton">
-
-                <span class="music-icon">
-                    ♫
-                </span>
-
-                <span id="musicText">
-                    музыка
-                </span>
-
-            </button>
-
-
-            <div class="final-footer">
-                made with love · just for you ♡
             </div>
 
         </section>
@@ -295,17 +268,24 @@
 
 
     <!-- =========================================
-         AUDIO
+         ФОНОВАЯ МУЗЫКА
     ========================================== -->
 
     <audio
         id="music"
-        src="music.mp3"
         loop
-        preload="auto"
-    ></audio>
+        preload="metadata"
+    >
+        <source
+            src="music.mp3"
+            type="audio/mpeg"
+        >
+
+        Ваш браузер не поддерживает аудио.
+    </audio>
 
 
+    <!-- JavaScript -->
     <script src="index.js"></script>
 
 </body>
