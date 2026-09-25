@@ -30,15 +30,15 @@ const musicText =
 
 
 const typedText =
-    document.getElementById("typedText");
+    document.getElementById("letterText");
 
 
 const finalMessage =
-    document.getElementById("finalMessage");
+    document.getElementById("finalChoiceText");
 
 
 const floatingHearts =
-    document.getElementById("floatingHearts");
+    document.querySelector(".floating-hearts");
 
 
 /* =====================================================
